@@ -2,23 +2,23 @@
 import 'package:aqueduct/aqueduct.dart' hide Response;
 import 'response.dart';
 
-class ExistsLoginRequest extends Serializable {
+class ExistsTeamRequest extends Serializable {
 
-  String login;
+  String title;
 
   @override
   Map<String, dynamic> asMap() => {
-      'login': login,
+      'title': title,
   };
 
   @override
   void readFromMap(Map<String, dynamic> inputMap) {
-    login = inputMap['login'];
+    title = inputMap['title'];
   }
 
 }
 
 // status:
-//    0 - логин существует
+//    0 - команда существует
 //    1 - не существует
-class ExistsLoginResponse extends Response {}
+class ExistsTeamResponse extends Response {}

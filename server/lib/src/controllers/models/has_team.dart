@@ -1,25 +1,23 @@
 import 'package:aqueduct/aqueduct.dart' hide Response;
 import 'response.dart';
 
-class RegistrationRequest extends Serializable {
+class HasTeamRequest extends Serializable {
 
   String login;
-  String password;
 
   @override
   Map<String, dynamic> asMap() => {
       'login': login,
-      'password': password,
   };
 
   @override
   void readFromMap(Map<String, dynamic> inputMap) {
     login = inputMap['login'];
-    password = inputMap['password'];
   }
 
 }
 
 // status:
-//   0 - ок
-class RegistrationResponse extends Response {}
+//   0 - пользователь находится в команде
+//   1 - не находится
+class HasTeamResponse extends Response {}
