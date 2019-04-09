@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'models/registration.dart';
+import '../models/registration.dart';
 
 class RegistrationController extends ResourceController {
 

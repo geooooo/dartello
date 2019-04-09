@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'models/create_team.dart';
+import '../models/create_team.dart';
 
 class CreateTeamController extends ResourceController {
 

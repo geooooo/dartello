@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'models/exists_login.dart';
+import '../models/exists_login.dart';
 
 class ExistsLoginController extends ResourceController {
 
