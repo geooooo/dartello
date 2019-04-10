@@ -11,6 +11,9 @@ import 'controllers/create_group_controller.dart';
 import 'controllers/delete_group_controller.dart';
 import 'controllers/create_task_controller.dart';
 import 'controllers/delete_task_controller.dart';
+import 'controllers/get_settings_controller.dart';
+import 'controllers/append_account_to_team_controller.dart';
+import 'controllers/delete_account_from_team_controller.dart';
 
 final router = Router()
   ..route('/login').link(() => LoginController())
@@ -23,4 +26,9 @@ final router = Router()
   ..route('/create_group').link(() => CreateGroupController())
   ..route('/delete_group').link(() => DeleteGroupController())
   ..route('/create_task').link(() => CreateTaskController())
-  ..route('/delete_task').link(() => DeleteTaskController());
+  ..route('/delete_task').link(() => DeleteTaskController())
+  ..route('/get_settings').link(() => GetSettingsController())
+  ..route('/append_account_to_team').link(() => AppendAccountToTeamController())
+  ..route('/delete_account_from_team').link(() => DeleteAccountFromTeamController());
+
+
