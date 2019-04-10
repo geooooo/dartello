@@ -1,19 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-
-import 'controllers/login_controller.dart';
-import 'controllers/exists_login_controller.dart';
-import 'controllers/registration_controller.dart';
-import 'controllers/has_team_controller.dart';
-import 'controllers/create_team_controller.dart';
-import 'controllers/exists_team_controller.dart';
-import 'controllers/get_dashboard_controller.dart';
-import 'controllers/create_group_controller.dart';
-import 'controllers/delete_group_controller.dart';
-import 'controllers/create_task_controller.dart';
-import 'controllers/delete_task_controller.dart';
-import 'controllers/get_settings_controller.dart';
-import 'controllers/append_account_to_team_controller.dart';
-import 'controllers/delete_account_from_team_controller.dart';
+import 'controllers/controllers.dart';
 
 final router = Router()
   ..route('/login').link(() => LoginController())

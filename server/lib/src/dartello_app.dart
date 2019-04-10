@@ -1,5 +1,4 @@
 import 'package:aqueduct/aqueduct.dart';
-
 import 'router.dart';
 
 class DartelloApp extends ApplicationChannel {
