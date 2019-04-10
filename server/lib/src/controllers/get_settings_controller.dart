@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/get_settings.dart';
+import 'package:api_models/api_models.dart';
 
 class GetSettingsController extends ResourceController {
 

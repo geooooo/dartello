@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/create_task.dart';
+import 'package:api_models/api_models.dart';
 
 class CreateTaskController extends ResourceController {
 

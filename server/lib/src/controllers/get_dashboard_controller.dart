@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/get_dashboard.dart';
+import 'package:api_models/api_models.dart';
 
 class GetDashboardController extends ResourceController {
 

@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/login.dart';
+import 'package:api_models/api_models.dart';
 
 class LoginController extends ResourceController {
 

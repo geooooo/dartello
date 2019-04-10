@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/append_account_to_team.dart';
+import 'package:api_models/api_models.dart';
 
 class AppendAccountToTeamController extends ResourceController {
 

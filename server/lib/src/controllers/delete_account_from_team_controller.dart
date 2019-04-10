@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/delete_account_from_team.dart';
+import 'package:api_models/api_models.dart';
 
 class DeleteAccountFromTeamController extends ResourceController {
 

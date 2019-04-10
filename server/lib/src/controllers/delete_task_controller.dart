@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/delete_task.dart';
+import 'package:api_models/api_models.dart';
 
 class DeleteTaskController extends ResourceController {
 

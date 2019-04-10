@@ -1,5 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
-import '../models/delete_group.dart';
+import 'package:api_models/api_models.dart';
 
 class DeleteGroupController extends ResourceController {
 
