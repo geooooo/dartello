@@ -1,5 +1,5 @@
-name: dartello
-description: lightweight trello analog
+name: api_models
+description: lightweight trello analog - api models
 version: 1.0.0
 author: yury.kornienko geo97it@gmail.com
 
@@ -7,6 +7,7 @@ environment:
   sdk: ^2.2.0
 
 dependencies:
+  aqueduct: ^3.2.0
 
 dev_dependencies:
   pedantic: ^1.5.0

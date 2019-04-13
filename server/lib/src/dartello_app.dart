@@ -1,12 +1,21 @@
 import 'package:aqueduct/aqueduct.dart';
-import 'router.dart';
+
+import 'package:server/src/internal/di_injector.dart';
+import 'package:server/src/internal/managed_context.dart';
+import 'package:server/src/internal/router.dart';
 
 class DartelloApp extends ApplicationChannel {
 
-  @override
-  Future<void> prepare() async => null;
+  DiInjector _diInjector;
 
   @override
-  Controller get entryPoint => router;
+  Future<void> prepare() async {
+     _diInjector = DiInjector(
+         managedContext: createManagedContext()
+     );
+  }
+
+  @override
+  Controller get entryPoint => createRouter(_diInjector);
 
 }
