@@ -1,19 +1,49 @@
-// import 'package:moor/moor.dart';
+import 'package:aqueduct/aqueduct.dart';
 
-// class TaskTable extends Table {
+import 'package:server/src/services/src/db/src/account_table.dart';
+import 'package:server/src/services/src/db/src/group_table.dart';
 
-//   IntColumn get id => integer().autoIncrement()();
+class Task extends ManagedObject<_Task> implements _Task {}
 
-//   TextColumn get title => text().customConstraint('NOT NULL')();
+class _Task {
 
-//   TextColumn get description => text().customConstraint('NOT NULL')();
+  @Column(
+    primaryKey: true,
+    autoincrement: true,
+  )
+  int id;
 
-//   IntColumn get priority => integer().customConstraint('NOT NULL CHECK (1 >= priority AND priority <= 3)')();
+  @Column(
+    nullable: false,
+  )
+  String title;
 
-//   IntColumn get time_point => integer().customConstraint('NOT NULL CHECK (0 >= time_point AND time_point <= 100)')();
+  @Column(
+    nullable: false,
+  )
+  String description;
 
-//   IntColumn get groupId => integer().customConstraint('NOT NULL FOREIGN KEY(group_id) REFERENCES Group(id)')();
+  @Column(
+    nullable: false,
+    validators: [
+      Validate.oneOf([1, 2, 3]),
+    ],
+  )
+  String priority;
 
-//   IntColumn get accountId => integer().customConstraint('NOT NULL FOREIGN KEY(account_id) REFERENCES Account(id)')();
+  @Column(
+    nullable: false,
+    validators: [
+      Validate.length(
+        greaterThanEqualTo: 0,
+        lessThanEqualTo: 100,
+      ),
+    ],
+  )
+  String timePoint;
 
-// }
+  Group group;
+
+  Account account;
+
+}

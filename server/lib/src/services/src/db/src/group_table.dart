@@ -1,11 +1,22 @@
-// import 'package:moor/moor.dart';
+import 'package:aqueduct/aqueduct.dart';
 
-// class GroupTable extends Table {
+import 'package:server/src/services/src/db/src/dashboard_table.dart';
 
-//   IntColumn get id => integer().autoIncrement()();
+class Group extends ManagedObject<_Group> implements _Group {}
 
-//   TextColumn get title => text().customConstraint('NOT NULL')();
+class _Group {
 
-//   IntColumn get dashboardId => integer().customConstraint('NOT NULL FOREIGN KEY(dashboard_id) REFERENCES Dashboard(id)')();
+  @Column(
+    primaryKey: true,
+    autoincrement: true,
+  )
+  int id;
 
-// }
+  @Column(
+    nullable: false,
+  )
+  String title;
+
+  Dashboard dashboard;
+
+}

@@ -1,11 +1,27 @@
-// import 'package:moor/moor.dart';
+import 'package:aqueduct/aqueduct.dart';
 
-// class TeamTable extends Table {
+import 'package:server/src/services/src/db/src/account_table.dart';
+import 'package:server/src/services/src/db/src/dashboard_table.dart';
 
-//   IntColumn get id => integer().autoIncrement()();
+class Team extends ManagedObject<_Team> implements _Team {}
 
-//   TextColumn get title => text().customConstraint('NOT NULL UNIQUE')();
+class _Team {
 
-//   IntColumn get dashboardId => integer().customConstraint('NOT NULL FOREIGN KEY(dashboard_id) REFERENCES Dashboard(id)')();
+  @Column(
+    primaryKey: true,
+    autoincrement: true,
+  )
+  int id;
 
-// }
+  @Column(
+    nullable: false,
+    unique: true,
+  )
+  String title;
+
+  Dashboard dashboard;
+
+  @Relate(#team)
+  Account account;
+
+}
