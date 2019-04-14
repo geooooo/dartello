@@ -1,8 +1,8 @@
 import 'package:aqueduct/aqueduct.dart';
 
-import 'package:server/src/internal/di_injector.dart';
-import 'package:server/src/internal/managed_context.dart';
-import 'package:server/src/internal/router.dart';
+import 'internal/di_injector.dart';
+import 'internal/router.dart';
+import 'services/services.dart';
 
 class DartelloApp extends ApplicationChannel {
 
@@ -11,7 +11,7 @@ class DartelloApp extends ApplicationChannel {
   @override
   Future<void> prepare() async {
      _diInjector = DiInjector(
-         managedContext: createManagedContext()
+        db: Db(),
      );
   }
 

@@ -1,11 +1,11 @@
 import 'package:aqueduct/aqueduct.dart';
 
-import 'package:server/src/services/src/db/src/team_table.dart';
-import 'package:server/src/services/src/db/src/group_table.dart';
+import 'team_table.dart';
+import 'group_table.dart';
 
-class Dashboard extends ManagedObject<_Dashboard> implements _Dashboard {}
+class DashboardTable extends ManagedObject<_DashboardTable> implements _DashboardTable {}
 
-class _Dashboard {
+class _DashboardTable {
 
   @Column(
     primaryKey: true,
@@ -14,9 +14,9 @@ class _Dashboard {
   int id;
 
   @Relate(#dashboard)
-  Team team;
+  GroupTable group;
 
-  @Relate(#group)
-  Group group;
+  @Relate(#dashboard)
+  TeamTable team;
 
 }

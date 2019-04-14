@@ -1,9 +1,9 @@
-import 'package:aqueduct/aqueduct.dart';
+import 'package:server/src/services/services.dart';
 
 class DiInjector {
 
-  final ManagedContext managedContext;
+  final Db db;
 
-  DiInjector({this. managedContext});
+  DiInjector({this.db});
 
 }

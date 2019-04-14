@@ -1,10 +1,11 @@
 import 'package:aqueduct/aqueduct.dart';
 
-import 'package:server/src/services/src/db/src/team_table.dart';
+import 'team_table.dart';
+import 'task_table.dart';
 
-class Account extends ManagedObject<_Account> implements _Account {}
+class AccountTable extends ManagedObject<_AccountTable> implements _AccountTable {}
 
-class _Account {
+class _AccountTable {
 
   @Column(
     primaryKey: true,
@@ -23,6 +24,9 @@ class _Account {
   )
   String password;
 
-  Team team;
+  TeamTable team;
+
+  @Relate(#account)
+  TaskTable task;
 
 }

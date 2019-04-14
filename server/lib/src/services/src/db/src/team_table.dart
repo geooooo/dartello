@@ -1,11 +1,11 @@
 import 'package:aqueduct/aqueduct.dart';
 
-import 'package:server/src/services/src/db/src/account_table.dart';
-import 'package:server/src/services/src/db/src/dashboard_table.dart';
+import 'account_table.dart';
+import 'dashboard_table.dart';
 
-class Team extends ManagedObject<_Team> implements _Team {}
+class TeamTable extends ManagedObject<_TeamTable> implements _TeamTable {}
 
-class _Team {
+class _TeamTable {
 
   @Column(
     primaryKey: true,
@@ -19,9 +19,9 @@ class _Team {
   )
   String title;
 
-  Dashboard dashboard;
+  DashboardTable dashboard;
 
   @Relate(#team)
-  Account account;
+  AccountTable account;
 
 }

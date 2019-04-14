@@ -1,11 +1,11 @@
 import 'package:aqueduct/aqueduct.dart';
 
-import 'package:server/src/services/src/db/src/account_table.dart';
-import 'package:server/src/services/src/db/src/group_table.dart';
+import 'account_table.dart';
+import 'group_table.dart';
 
-class Task extends ManagedObject<_Task> implements _Task {}
+class TaskTable extends ManagedObject<_TaskTable> implements _TaskTable {}
 
-class _Task {
+class _TaskTable {
 
   @Column(
     primaryKey: true,
@@ -26,7 +26,10 @@ class _Task {
   @Column(
     nullable: false,
     validators: [
-      Validate.oneOf([1, 2, 3]),
+      Validate.length(
+        greaterThanEqualTo: 1,
+        lessThanEqualTo: 3,
+      ),
     ],
   )
   String priority;
@@ -42,8 +45,8 @@ class _Task {
   )
   String timePoint;
 
-  Group group;
+  GroupTable group;
 
-  Account account;
+  AccountTable account;
 
 }
