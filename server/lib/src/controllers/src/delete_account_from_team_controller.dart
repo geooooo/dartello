@@ -2,9 +2,8 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart';
 
 import 'package:server/src/internal/di_injector.dart';
-import 'logger_resource_controller.dart';
 
-class DeleteAccountFromTeamController extends LoggerResourceController {
+class DeleteAccountFromTeamController extends ResourceController {
 
   final DiInjector _diInjector;
 
@@ -12,8 +11,7 @@ class DeleteAccountFromTeamController extends LoggerResourceController {
 
   @Operation.post()
   Future<Response> deleteAccountFromTeam(@Bind.body() DeleteAccountFromTeamRequest request) async {
-    _diInjector.logger.logRestApi(super.method, super.uri, request.asMap());
-
+    _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     _diInjector.db.deleteAccountFromTeam(request.login, request.teamTitle);
     final response = DeleteAccountFromTeamResponse();
     return Response.ok(response);

@@ -38,7 +38,16 @@ class Db {
 
   bool hasTeam(String login) => null;
 
-  bool checkAccount(String login, String password) => null;
+  Future<bool> checkAccount(String login, String password) async {
+    print('1');
+    final query = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login)
+      ..where((AccountTable account) => account.password).equalTo(password);
+    print('2');
+    final accounts = await query.fetch();
+    print('3');
+    return accounts.isNotEmpty;
+  }
 
   Future<void> createAccount(String login, String password) async {
     final query = Query<AccountTable>(_managedContext)

@@ -2,9 +2,8 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart';
 
 import 'package:server/src/internal/di_injector.dart';
-import 'logger_resource_controller.dart';
 
-class GetDashboardController extends LoggerResourceController {
+class GetDashboardController extends ResourceController {
 
   final DiInjector _diInjector;
 
@@ -12,8 +11,7 @@ class GetDashboardController extends LoggerResourceController {
 
   @Operation.post()
   Future<Response> getDashboard(@Bind.body() GetDashboardRequest request) async {
-    _diInjector.logger.logRestApi(super.method, super.uri, request.asMap());
-
+    _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     final data = _diInjector.db.selectDashboard(request.login);
     final response = GetDashboardResponse()
       ..title = data['title']
