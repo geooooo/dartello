@@ -11,8 +11,11 @@ class HasTeamController extends ResourceController {
 
   @Operation.post()
   Future<Response> hasTeam(@Bind.body() HasTeamRequest request) async {
+
     print(request.asMap());
-    final response = HasTeamResponse();
+
+    final hasTeam = _diInjector.db.hasTeam(request.login);
+    final response = HasTeamResponse()..status = hasTeam? 0 : 1;
     return Response.ok(response);
   }
 

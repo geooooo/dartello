@@ -11,8 +11,11 @@ class LoginController extends ResourceController {
 
   @Operation.post()
   Future<Response> sendLogin(@Bind.body() LoginRequest request) async {
+
     print(request.asMap());
-    final response = LoginReponse();
+
+    final isOk = _diInjector.db.checkAccount(request.login, request.password);
+    final response = LoginReponse()..status = isOk? 0 : 1;
     return Response.ok(response);
   }
 

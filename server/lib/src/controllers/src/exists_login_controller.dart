@@ -11,8 +11,11 @@ class ExistsLoginController extends ResourceController {
 
   @Operation.post()
   Future<Response> existsLogin(@Bind.body() ExistsLoginRequest request) async {
+
     print(request.asMap());
-    final response = ExistsLoginResponse();
+
+    final isExists = _diInjector.db.existsLogin(request.login);
+    final response = ExistsLoginResponse()..status = isExists? 0 : 1;
     return Response.ok(response);
   }
 

@@ -11,7 +11,10 @@ class CreateTaskController extends ResourceController {
 
   @Operation.post()
   Future<Response> createTask(@Bind.body() CreateTaskRequest request) async {
+
     print(request.asMap());
+
+    _diInjector.db.createTask(request.task);
     final response = CreateTaskResponse();
     return Response.ok(response);
   }

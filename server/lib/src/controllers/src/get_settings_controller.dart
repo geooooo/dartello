@@ -11,8 +11,11 @@ class GetSettingsController extends ResourceController {
 
   @Operation.post()
   Future<Response> getSettings(@Bind.body() GetSettingsRequest request) async {
+
     print(request.asMap());
-    final response = GetSettingsResponse();
+
+    final data = _diInjector.db.selectSettings(request.login, request.teamTitle);
+    final response = GetSettingsResponse()..logins = data['logins'];
     return Response.ok(response);
   }
 
