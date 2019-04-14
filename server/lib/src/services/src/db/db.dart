@@ -40,6 +40,11 @@ class Db {
 
   bool checkAccount(String login, String password) => null;
 
-  void createAccount(String login, String password) => null;
+  Future<void> createAccount(String login, String password) async {
+    final query = Query<AccountTable>(_managedContext)
+      ..values.login = login
+      ..values.password = password;
+    await query.insert();
+  }
 
 }

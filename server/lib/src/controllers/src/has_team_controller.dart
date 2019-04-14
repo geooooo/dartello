@@ -2,8 +2,9 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart';
 
 import 'package:server/src/internal/di_injector.dart';
+import 'logger_resource_controller.dart';
 
-class HasTeamController extends ResourceController {
+class HasTeamController extends LoggerResourceController {
 
   final DiInjector _diInjector;
 
@@ -11,8 +12,7 @@ class HasTeamController extends ResourceController {
 
   @Operation.post()
   Future<Response> hasTeam(@Bind.body() HasTeamRequest request) async {
-
-    print(request.asMap());
+    _diInjector.logger.logRestApi(super.method, super.uri, request.asMap());
 
     final hasTeam = _diInjector.db.hasTeam(request.login);
     final response = HasTeamResponse()..status = hasTeam? 0 : 1;

@@ -2,8 +2,9 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart';
 
 import 'package:server/src/internal/di_injector.dart';
+import 'logger_resource_controller.dart';
 
-class LoginController extends ResourceController {
+class LoginController extends LoggerResourceController {
 
   final DiInjector _diInjector;
 
@@ -11,8 +12,7 @@ class LoginController extends ResourceController {
 
   @Operation.post()
   Future<Response> sendLogin(@Bind.body() LoginRequest request) async {
-
-    print(request.asMap());
+    _diInjector.logger.logRestApi(super.method, super.uri, request.asMap());
 
     final isOk = _diInjector.db.checkAccount(request.login, request.password);
     final response = LoginReponse()..status = isOk? 0 : 1;

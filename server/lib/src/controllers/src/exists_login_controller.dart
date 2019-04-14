@@ -2,8 +2,9 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart';
 
 import 'package:server/src/internal/di_injector.dart';
+import 'logger_resource_controller.dart';
 
-class ExistsLoginController extends ResourceController {
+class ExistsLoginController extends LoggerResourceController {
 
   final DiInjector _diInjector;
 
@@ -11,8 +12,7 @@ class ExistsLoginController extends ResourceController {
 
   @Operation.post()
   Future<Response> existsLogin(@Bind.body() ExistsLoginRequest request) async {
-
-    print(request.asMap());
+    _diInjector.logger.logRestApi(super.method, super.uri, request.asMap());
 
     final isExists = _diInjector.db.existsLogin(request.login);
     final response = ExistsLoginResponse()..status = isExists? 0 : 1;

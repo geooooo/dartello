@@ -7,6 +7,7 @@ environment:
   sdk: ^2.2.0
 
 dependencies:
+  ansicolor: ^1.0.2
   aqueduct: ^3.2.0
   api_models:
     path: ../api_models
