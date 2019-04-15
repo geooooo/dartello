@@ -14,7 +14,6 @@ class LoginController extends ResourceController {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     final isOk = await _diInjector.db.checkAccount(request.login, request.password);
     final response = LoginReponse()..status = isOk? 0 : 1;
-    print(isOk);
     return Response.ok(response);
   }
 

@@ -12,7 +12,7 @@ class ExistsTeamController extends ResourceController {
   @Operation.post()
   Future<Response> existsTeam(@Bind.body() ExistsTeamRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    final isExists = _diInjector.db.existsTeam(request.title);
+    final isExists = await _diInjector.db.existsTeam(request.title);
     final response = ExistsTeamResponse()..status = isExists? 0 : 1;
     return Response.ok(response);
   }

@@ -20,7 +20,16 @@ class Db {
 
   void createTask(api_models.Task task) => null;
 
-  void createTeam(String title) => null;
+  void createTeam(String title, String login) async {
+    final queryAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login);
+    final account = (await queryAccount.fetch()).first;
+
+    final queryCreateTeam = Query<TeamTable>(_managedContext)
+      ..values.title = title
+      ..values.account = account;
+    await queryCreateTeam.insert();
+  }
 
   void deleteAccountFromTeam(String login, String teamTitle) => null;
 
@@ -28,24 +37,43 @@ class Db {
 
   void deleteTask(String taskTitle, String groupTitle, String teamTitle) => null;
 
-  bool existsLogin(String login) => null;
+  Future<bool> existsLogin(String login) async {
+    final queryAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login);
+    final accounts = await queryAccount.fetch();
+    return accounts.isNotEmpty;
+  }
 
-  bool existsTeam(String title) => null;
+  Future<bool> existsTeam(String title) async {
+    final queryTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.title).equalTo(title);
+    final teams = await queryTeam.fetch();
+    return teams.isNotEmpty;
+  }
 
   Map<String, Object> selectDashboard(String login) => null;
 
   Map<String, Object> selectSettings(String login, String teamTitle) => null;
 
-  bool hasTeam(String login) => null;
+  Future<bool> hasTeam(String login) async {
+    final queryAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login);
+    final accounts = await queryAccount.fetch();
+    if (accounts.isEmpty) {
+      return false;
+    }
+    final account = accounts.first;
+    final hasTeamQuery = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.account.login).equalTo(account.login);
+    final teams = await hasTeamQuery.fetch();
+    return teams.isNotEmpty;
+  }
 
   Future<bool> checkAccount(String login, String password) async {
-    print('1');
     final query = Query<AccountTable>(_managedContext)
       ..where((AccountTable account) => account.login).equalTo(login)
       ..where((AccountTable account) => account.password).equalTo(password);
-    print('2');
     final accounts = await query.fetch();
-    print('3');
     return accounts.isNotEmpty;
   }
 
