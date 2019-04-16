@@ -12,7 +12,7 @@ class DeleteTaskController extends ResourceController {
   @Operation.post()
   Future<Response> deleteTask(@Bind.body() DeleteTaskRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    _diInjector.db.deleteTask(request.taskTitle, request.groupTitle, request.teamTitle);
+    await _diInjector.db.deleteTask(request.taskTitle, request.groupTitle, request.teamTitle);
     final response = DeleteTaskResponse();
     return Response.ok(response);
   }

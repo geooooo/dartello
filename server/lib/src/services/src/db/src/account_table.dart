@@ -24,9 +24,9 @@ class _AccountTable {
   )
   String password;
 
+  @Relate(#account)
   TeamTable team;
 
-  @Relate(#account)
   TaskTable task;
 
 }

@@ -1,3 +1,4 @@
+```
 CREATE TABLE IF NOT EXISTS Account (
   id INT PRIMARY KEY,
   login TEXT UNIQUE NOT NULL,
@@ -39,3 +40,4 @@ CREATE TABLE IF NOT EXISTS Task (
   FOREIGN KEY(group_id) REFERENCES `Group`(id),
   FOREIGN KEY(account_id) REFERENCES Account(id)
 );
+```

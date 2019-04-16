@@ -12,7 +12,7 @@ class DeleteAccountFromTeamController extends ResourceController {
   @Operation.post()
   Future<Response> deleteAccountFromTeam(@Bind.body() DeleteAccountFromTeamRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    _diInjector.db.deleteAccountFromTeam(request.login, request.teamTitle);
+    await _diInjector.db.deleteAccountFromTeam(request.login, request.teamTitle);
     final response = DeleteAccountFromTeamResponse();
     return Response.ok(response);
   }

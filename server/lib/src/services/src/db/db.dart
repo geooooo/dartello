@@ -14,11 +14,17 @@ class Db {
 
   Db(): _managedContext = createManagedContext();
 
-  void appendAccountToTeam(String login, String teamTitle) => null;
+  Future<void> appendAccountToTeam(String login, String teamTitle) async {
+    //
+  }
 
-  void createGroup(api_models.Group group) => null;
+  Future<void> createGroup(api_models.Group group) async {
+    //
+  }
 
-  void createTask(api_models.Task task) => null;
+  Future<void> createTask(api_models.Task task) async {
+    //
+  }
 
   void createTeam(String title, String login) async {
     final queryAccount = Query<AccountTable>(_managedContext)
@@ -26,16 +32,33 @@ class Db {
     final account = (await queryAccount.fetch()).first;
 
     final queryCreateTeam = Query<TeamTable>(_managedContext)
-      ..values.title = title
-      ..values.account = account;
-    await queryCreateTeam.insert();
+      ..values.title = title;
+    final team = await queryCreateTeam.insert();
+
+    final queryUpdateAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account0) => account0.login).equalTo(account.login)
+      ..values.team = team;
+    await queryUpdateAccount.updateOne();
   }
 
-  void deleteAccountFromTeam(String login, String teamTitle) => null;
+  Future<void> deleteAccountFromTeam(String login, String teamTitle) async {
+    final querySelectTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.title).equalTo(teamTitle);
+    final team = (await querySelectTeam.fetch()).first;
 
-  void deleteGroup(String groupTitle, String teamTitle) => null;
+    final queryDeleteFromTeam = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.team.id).equalTo(team.id)
+      ..values.team = null;
+    await queryDeleteFromTeam.updateOne();
+  }
 
-  void deleteTask(String taskTitle, String groupTitle, String teamTitle) => null;
+  Future<void> deleteGroup(String groupTitle, String teamTitle) async {
+    //
+  }
+
+  Future<void> deleteTask(String taskTitle, String groupTitle, String teamTitle) async {
+    //
+  }
 
   Future<bool> existsLogin(String login) async {
     final queryAccount = Query<AccountTable>(_managedContext)
@@ -51,22 +74,19 @@ class Db {
     return teams.isNotEmpty;
   }
 
-  Map<String, Object> selectDashboard(String login) => null;
+  Future<Map<String, Object>> selectDashboard(String login) async {
+    return null;
+  }
 
-  Map<String, Object> selectSettings(String login, String teamTitle) => null;
+  Future<Map<String, Object>> selectSettings(String login, String teamTitle) async {
+    return null;
+  }
 
   Future<bool> hasTeam(String login) async {
     final queryAccount = Query<AccountTable>(_managedContext)
       ..where((AccountTable account) => account.login).equalTo(login);
-    final accounts = await queryAccount.fetch();
-    if (accounts.isEmpty) {
-      return false;
-    }
-    final account = accounts.first;
-    final hasTeamQuery = Query<TeamTable>(_managedContext)
-      ..where((TeamTable team) => team.account.login).equalTo(account.login);
-    final teams = await hasTeamQuery.fetch();
-    return teams.isNotEmpty;
+    final account = (await queryAccount.fetch()).first;
+    return account.team != null;
   }
 
   Future<bool> checkAccount(String login, String password) async {

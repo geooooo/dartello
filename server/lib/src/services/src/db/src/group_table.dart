@@ -18,9 +18,9 @@ class _GroupTable {
   )
   String title;
 
+  @Relate(#groups)
   DashboardTable dashboard;
 
-  @Relate(#group)
-  TaskTable task;
+  ManagedSet<TaskTable> tasks;
 
 }

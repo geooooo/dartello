@@ -12,7 +12,7 @@ class GetDashboardController extends ResourceController {
   @Operation.post()
   Future<Response> getDashboard(@Bind.body() GetDashboardRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    final data = _diInjector.db.selectDashboard(request.login);
+    final data = await _diInjector.db.selectDashboard(request.login);
     final response = GetDashboardResponse()
       ..title = data['title']
       ..groups = data['groups'];

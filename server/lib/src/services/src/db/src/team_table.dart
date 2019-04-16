@@ -19,9 +19,9 @@ class _TeamTable {
   )
   String title;
 
+  @Relate(#team)
   DashboardTable dashboard;
 
-  @Relate(#team)
-  AccountTable account;
+  ManagedSet<AccountTable> account;
 
 }

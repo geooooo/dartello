@@ -12,7 +12,7 @@ class AppendAccountToTeamController extends ResourceController {
   @Operation.post()
   Future<Response> appendAccountToTeam(@Bind.body() AppendAccountToTeamRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    _diInjector.db.appendAccountToTeam(request.login, request.teamTitle);
+    await _diInjector.db.appendAccountToTeam(request.login, request.teamTitle);
     final response = AppendAccountToTeamResponse();
     return Response.ok(response);
   }

@@ -12,7 +12,7 @@ class DeleteGroupController extends ResourceController {
   @Operation.post()
   Future<Response> deleteGroup(@Bind.body() DeleteGroupRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    _diInjector.db.deleteGroup(request.groupTitle, request.teamTitle);
+    await _diInjector.db.deleteGroup(request.groupTitle, request.teamTitle);
     final response = DeleteGroupResponse();
     return Response.ok(response);
   }

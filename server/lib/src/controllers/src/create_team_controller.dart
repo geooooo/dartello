@@ -12,7 +12,7 @@ class CreateTeamController extends ResourceController {
   @Operation.post()
   Future<Response> createTeam(@Bind.body() CreateTeamRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    _diInjector.db.createTeam(request.title, request.login);
+    await _diInjector.db.createTeam(request.title, request.login);
     final response = CreateTeamResponse();
     return Response.ok(response);
   }

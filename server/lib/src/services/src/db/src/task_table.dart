@@ -45,8 +45,10 @@ class _TaskTable {
   )
   String timePoint;
 
+  @Relate(#tasks)
   GroupTable group;
 
+  @Relate(#task)
   AccountTable account;
 
 }
