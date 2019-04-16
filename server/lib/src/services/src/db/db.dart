@@ -15,7 +15,14 @@ class Db {
   Db(): _managedContext = createManagedContext();
 
   Future<void> appendAccountToTeam(String login, String teamTitle) async {
-    //
+    final queryTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.title).equalTo(teamTitle);
+    final team = (await queryTeam.fetch()).first;
+
+    final queryAppendAccountToTeam = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login)
+      ..values.team = team;
+    await queryAppendAccountToTeam.updateOne();
   }
 
   Future<void> createGroup(api_models.Group group) async {
@@ -78,8 +85,20 @@ class Db {
     return null;
   }
 
-  Future<Map<String, Object>> selectSettings(String login, String teamTitle) async {
-    return null;
+  Future<Map<String, Object>> selectSettings(String login) async {
+    final queryAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login);
+    final account = (await queryAccount.fetch()).first;
+    final teamId = account.team.id;
+
+    final queryAccountsFromOneTeam = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.team.id).equalTo(teamId)
+      ..where((AccountTable account) => account.login).notEqualTo(login);
+    final accounts = await queryAccountsFromOneTeam.fetch();
+
+    return <String, Object>{
+      'logins': accounts.map((AccountTable account) => account.login).toList(),
+    };
   }
 
   Future<bool> hasTeam(String login) async {

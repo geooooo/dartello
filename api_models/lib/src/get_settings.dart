@@ -5,18 +5,15 @@ import 'package:api_models/src/response.dart';
 class GetSettingsRequest extends Serializable {
 
   String login;
-  String teamTitle;
 
   @override
   Map<String, dynamic> asMap() => {
     'login': login,
-    'team_title': teamTitle,
   };
 
   @override
   void readFromMap(Map<String, dynamic> inputMap) {
     login = inputMap['login'];
-    teamTitle = inputMap['team_title'];
   }
 
 }
@@ -35,8 +32,7 @@ class GetSettingsResponse extends Response {
   @override
   void readFromMap(Map<String, dynamic> inputMap) {
     super.readFromMap(inputMap);
-    final Iterable<String> loginsMap = inputMap['logins'];
-    logins = loginsMap.toList();
+    logins = inputMap['logins'];
   }
 
 }
