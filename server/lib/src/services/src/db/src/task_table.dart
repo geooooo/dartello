@@ -26,24 +26,24 @@ class _TaskTable {
   @Column(
     nullable: false,
     validators: [
-      Validate.length(
+      Validate.compare(
         greaterThanEqualTo: 1,
         lessThanEqualTo: 3,
       ),
     ],
   )
-  String priority;
+  int priority;
 
   @Column(
     nullable: false,
     validators: [
-      Validate.length(
+      Validate.compare(
         greaterThanEqualTo: 0,
         lessThanEqualTo: 100,
       ),
     ],
   )
-  String timePoint;
+  int timePoint;
 
   @Relate(#tasks)
   GroupTable group;
