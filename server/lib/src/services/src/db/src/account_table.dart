@@ -27,6 +27,6 @@ class _AccountTable {
   @Relate(#account)
   TeamTable team;
 
-  TaskTable task;
+  ManagedSet<TaskTable> task;
 
 }

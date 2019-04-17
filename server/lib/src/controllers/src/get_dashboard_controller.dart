@@ -13,9 +13,8 @@ class GetDashboardController extends ResourceController {
   Future<Response> getDashboard(@Bind.body() GetDashboardRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     final data = await _diInjector.db.selectDashboard(request.login);
-    final response = GetDashboardResponse()
-      ..title = data['title']
-      ..groups = data['groups'];
+    print(data);
+    final response = GetDashboardResponse()..readFromMap(data);
     return Response.ok(response);
   }
 

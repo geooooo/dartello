@@ -25,9 +25,9 @@ class Db {
     await queryAppendAccountToTeam.updateOne();
   }
 
-  Future<void> createGroup(api_models.Group group) async {
+  Future<void> createGroup(api_models.Group group, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(_managedContext)
-      ..where((TeamTable team) => team.title).equalTo(group.teamTitle);
+      ..where((TeamTable team) => team.title).equalTo(teamTitle);
     final team = (await querySelectTeam.fetch()).first;
     final dashboard = team.dashboard;
 
@@ -37,9 +37,15 @@ class Db {
     await queryCreateGroup.insert();
   }
 
-  Future<void> createTask(api_models.Task task) async {
+  Future<void> createTask(api_models.Task task, String teamTitle, String groupTitle) async {
+    final querySelectTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.title).equalTo(teamTitle);
+    final team = (await querySelectTeam.fetch()).first;
+    final dashboardId = team.dashboard.id;
+
     final querySelectGroup = Query<GroupTable>(_managedContext)
-      ..where((GroupTable group) => group.title).equalTo(task.groupTitle);
+      ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
+      ..where((GroupTable group) => group.title).equalTo(groupTitle);
     final group = (await querySelectGroup.fetch()).first;
 
     final querySelectAccount = Query<AccountTable>(_managedContext)
@@ -53,8 +59,6 @@ class Db {
       ..values.timePoint = task.timePoint
       ..values.account = account
       ..values.group = group;
-
-    // TODO: next line 500 error
     await queryCreateTask.insert();
   }
 
@@ -98,11 +102,23 @@ class Db {
       ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
       ..where((GroupTable group) => group.title).equalTo(groupTitle);
     await queryDeleteGroup.delete();
-    //TODO: test this method
   }
 
   Future<void> deleteTask(String taskTitle, String groupTitle, String teamTitle) async {
-    //TODO:
+    final querySelectTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.title).equalTo(teamTitle);
+    final team = (await querySelectTeam.fetch()).first;
+    final dashboardId = team.dashboard.id;
+
+    final querySelectGroup = Query<GroupTable>(_managedContext)
+      ..where((GroupTable group) => group.title).equalTo(groupTitle)
+      ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId);
+    final group = (await querySelectGroup.fetch()).first;
+    final groupId = group.id;
+
+    final queryDeleteTask = Query<TaskTable>(_managedContext)
+        ..where((TaskTable task) => task.group.id).equalTo(groupId);
+    await queryDeleteTask.delete();
   }
 
   Future<bool> existsLogin(String login) async {
@@ -120,8 +136,50 @@ class Db {
   }
 
   Future<Map<String, Object>> selectDashboard(String login) async {
-    //TODO:
-    return null;
+    final querySelectAccount = Query<AccountTable>(_managedContext)
+      ..where((AccountTable account) => account.login).equalTo(login);
+    final account = (await querySelectAccount.fetch()).first;
+    final teamId = account.team.id;
+
+    final querySelectTeam = Query<TeamTable>(_managedContext)
+      ..where((TeamTable team) => team.id).equalTo(teamId);
+    final team = (await querySelectTeam.fetch()).first;
+    final teamTitle = team.title;
+    final dashboardId = team.dashboard.id;
+
+    final querySelectGroups = Query<GroupTable>(_managedContext)
+      ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId);
+    final groups = await querySelectGroups.fetch();
+
+    final groupsResult = <Map<String, Object>>[];
+    for (var group in groups) {
+      final querySelectTasksFromGroup = Query<TaskTable>(_managedContext)
+        ..where((TaskTable task) => task.group.id).equalTo(group.id);
+      final tasks = await querySelectTasksFromGroup.fetch();
+      final newGroup = <String, Object>{
+        "title": group.title,
+        "tasks": <Map<String, Object>>[],
+      };
+      newGroup["tasks"] = tasks.map((TaskTable task) async {
+        final querySelectAccount= Query<AccountTable>(_managedContext)
+          ..where((AccountTable account) => account.id).equalTo(task.account.id);
+        final account = (await querySelectAccount.fetch()).first;
+        final responsibleLogin = account.login;
+        return <String, Object>{
+          "title": task.title,
+          "description": task.description,
+          "priority": task.priority,
+          "time_point": task.timePoint,
+          "responsibleLogin": responsibleLogin,
+        };
+      });
+      groupsResult.add(newGroup);
+    }
+
+    return <String, Object>{
+      'title': teamTitle,
+      'groups': groupsResult,
+    };
   }
 
   Future<Map<String, Object>> selectSettings(String login) async {

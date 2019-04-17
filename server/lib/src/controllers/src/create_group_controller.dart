@@ -12,7 +12,7 @@ class CreateGroupController extends ResourceController {
   @Operation.post()
   Future<Response> createGroup(@Bind.body() CreateGroupRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
-    await _diInjector.db.createGroup(request.group);
+    await _diInjector.db.createGroup(request.group, request.teamTitle);
     final response = CreateGroupResponse();
     return Response.ok(response);
   }
