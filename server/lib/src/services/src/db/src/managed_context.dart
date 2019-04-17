@@ -1,6 +1,6 @@
 import 'package:aqueduct/aqueduct.dart';
-
 import 'package:server/src/internal/app_config.dart';
+
 import 'account_table.dart';
 import 'group_table.dart';
 import 'task_table.dart';

@@ -1,7 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:api_models/api_models.dart' as api_models;
-
 import 'package:server/src/internal/app_config.dart';
+
 import 'src/managed_context.dart';
 import 'src/account_table.dart';
 import 'src/dashboard_table.dart';

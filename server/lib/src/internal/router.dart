@@ -1,5 +1,4 @@
 import 'package:aqueduct/aqueduct.dart';
-
 import 'package:server/src/controllers/controllers.dart';
 import 'package:server/src/internal/di_injector.dart';
 
