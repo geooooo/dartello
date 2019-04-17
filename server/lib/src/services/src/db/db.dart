@@ -147,33 +147,16 @@ class Db {
     final teamTitle = team.title;
     final dashboardId = team.dashboard.id;
 
-    final querySelectGroups = Query<GroupTable>(_managedContext)
+    final querySelectGroupsFromTeamDashboard = Query<GroupTable>(_managedContext)
       ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId);
-    final groups = await querySelectGroups.fetch();
+    final groups = await querySelectGroupsFromTeamDashboard.fetch();
 
-    final groupsResult = <Map<String, Object>>[];
+    final groupsResult = <api_models.Group>[];
     for (var group in groups) {
-      final querySelectTasksFromGroup = Query<TaskTable>(_managedContext)
-        ..where((TaskTable task) => task.group.id).equalTo(group.id);
-      final tasks = await querySelectTasksFromGroup.fetch();
-      final newGroup = <String, Object>{
-        "title": group.title,
-        "tasks": <Map<String, Object>>[],
-      };
-      newGroup["tasks"] = tasks.map((TaskTable task) async {
-        final querySelectAccount= Query<AccountTable>(_managedContext)
-          ..where((AccountTable account) => account.id).equalTo(task.account.id);
-        final account = (await querySelectAccount.fetch()).first;
-        final responsibleLogin = account.login;
-        return <String, Object>{
-          "title": task.title,
-          "description": task.description,
-          "priority": task.priority,
-          "time_point": task.timePoint,
-          "responsibleLogin": responsibleLogin,
-        };
-      });
-      groupsResult.add(newGroup);
+      groupsResult.add(api_models.Group()
+        ..title = group.title
+        ..tasks = await _getTasksFromGroup(group.id)
+      );
     }
 
     return <String, Object>{
@@ -218,6 +201,30 @@ class Db {
       ..values.login = login
       ..values.password = password;
     await query.insert();
+  }
+
+  Future<List<api_models.Task>> _getTasksFromGroup(int groupId) async {
+    final querySelectTasksFromGroup = Query<TaskTable>(_managedContext)
+      ..where((TaskTable task) => task.group.id).equalTo(groupId);
+    final tasks = await querySelectTasksFromGroup.fetch();
+
+    final tasksResult = <api_models.Task>[];
+    for (var task in tasks) {
+      final querySelectAccount= Query<AccountTable>(_managedContext)
+        ..where((AccountTable account) => account.id).equalTo(task.account.id);
+      final account = (await querySelectAccount.fetch()).first;
+      final responsibleLogin = account.login;
+
+      tasksResult.add(api_models.Task()
+        ..title = task.title
+        ..description = task.description
+        ..priority = task.priority
+        ..timePoint = task.timePoint
+        ..responsibleLogin = responsibleLogin
+      );
+    }
+
+    return tasksResult;
   }
 
 }

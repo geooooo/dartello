@@ -14,7 +14,9 @@ class GetDashboardController extends ResourceController {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     final data = await _diInjector.db.selectDashboard(request.login);
     print(data);
-    final response = GetDashboardResponse()..readFromMap(data);
+    final response = GetDashboardResponse()
+      ..title = data['title']
+      ..groups = data['groups'];
     return Response.ok(response);
   }
 
