@@ -2,7 +2,6 @@ import 'package:aqueduct/aqueduct.dart';
 
 class Task extends Serializable {
 
-  String groupTitle = '';
   String title = '';
   String description = '';
   String responsibleLogin = '';
@@ -11,7 +10,6 @@ class Task extends Serializable {
 
   @override
   Map<String, dynamic> asMap() => {
-      'group_title': groupTitle,
       'title': title,
       'description': description,
       'time_point': timePoint,
@@ -21,7 +19,6 @@ class Task extends Serializable {
 
   @override
   void readFromMap(Map<String, dynamic> inputMap) {
-    groupTitle = inputMap['group_title'];
     title = inputMap['title'];
     description = inputMap['description'];
     timePoint = inputMap['time_point'];
