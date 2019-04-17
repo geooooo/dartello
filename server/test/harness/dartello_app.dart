@@ -75,7 +75,7 @@ class DartelloAppHarness extends TestHarness<DartelloApp> with TestHarnessORMMix
     _account3 = await ((Query<AccountTable>(context)
       ..values.login = 'login3'
       ..values.password = 'password3'
-      ..values.team = _team1
+      ..values.team = null
     ).insert());
     _account4 = await ((Query<AccountTable>(context)
       ..values.login = 'login4'

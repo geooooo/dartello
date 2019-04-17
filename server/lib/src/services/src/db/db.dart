@@ -86,9 +86,11 @@ class Db {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
     final team = await querySelectTeam.fetchOne();
+    final teamId = team.id;
 
     final queryDeleteFromTeam = Query<AccountTable>(managedContext)
-      ..where((AccountTable account) => account.team.id).equalTo(team.id)
+      ..where((AccountTable account) => account.team.id).equalTo(teamId)
+      ..where((AccountTable account) => account.login).equalTo(login)
       ..values.team = null;
     await queryDeleteFromTeam.updateOne();
   }
