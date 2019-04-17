@@ -13,7 +13,7 @@ class DartelloApp extends ApplicationChannel {
   Future<void> prepare() async {
      _diInjector = DiInjector(
         db: Db(),
-        logger: AppLogger(),
+        logger: AppLogger(logger),
      );
   }
 

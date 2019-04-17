@@ -8,8 +8,12 @@ class AppLogger {
   static final bodyColor = AnsiPen();
   static final Logger _logger = Logger('main');
 
-  AppLogger() {
+  AppLogger(Logger aqueductLogger) {
     hierarchicalLoggingEnabled = true;
+
+    aqueductLogger.onRecord.listen((record) =>
+        print("$record ${record.error ?? ""} ${record.stackTrace ?? ""}")
+    );
 
     _logger
       ..level = Level.INFO
