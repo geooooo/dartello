@@ -3,9 +3,9 @@ import 'app_logger.dart';
 
 class DiInjector {
 
-  final Db db;
   final AppLogger logger;
+  Db db;
 
-  DiInjector({this.db, this.logger});
+  DiInjector({this.logger, this.db});
 
 }

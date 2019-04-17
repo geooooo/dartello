@@ -11,9 +11,11 @@ class AppLogger {
   AppLogger(Logger aqueductLogger) {
     hierarchicalLoggingEnabled = true;
 
-    aqueductLogger.onRecord.listen((record) =>
-        print("$record ${record.error ?? ""} ${record.stackTrace ?? ""}")
-    );
+    aqueductLogger.onRecord.listen((record) {
+      if (record.error != null) {
+        print('${record.error} ${record.stackTrace}');
+      }
+    });
 
     _logger
       ..level = Level.INFO

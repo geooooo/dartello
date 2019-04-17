@@ -9,6 +9,8 @@ environment:
 dependencies:
   ansicolor: ^1.0.2
   aqueduct: ^3.2.0
+  aqueduct_test: ^1.0.1
+  test: ^1.5.3
   api_models:
     path: ../api_models
 

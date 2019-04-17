@@ -7,9 +7,7 @@ import 'task_table.dart';
 import 'team_table.dart';
 import 'dashboard_table.dart';
 
-final _config = AppConfig();
-
-ManagedContext createManagedContext() => ManagedContext(
+ManagedContext createManagedContext(AppConfig appConfig) => ManagedContext(
   ManagedDataModel([
     DashboardTable,
     AccountTable,
@@ -18,10 +16,10 @@ ManagedContext createManagedContext() => ManagedContext(
     TeamTable,
   ]),
   PostgreSQLPersistentStore.fromConnectionInfo(
-    _config.database.username,
-    _config.database.password,
-    _config.database.host,
-    _config.database.port,
-    _config.database.databaseName,
+    appConfig.database.username,
+    appConfig.database.password,
+    appConfig.database.host,
+    appConfig.database.port,
+    appConfig.database.databaseName,
   ),
 );
