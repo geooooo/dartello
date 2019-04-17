@@ -18,7 +18,7 @@ class Db {
   Future<void> appendAccountToTeam(String login, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
 
     final queryAppendAccountToTeam = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(login)
@@ -29,7 +29,7 @@ class Db {
   Future<void> createGroup(api_models.Group group, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
     final dashboard = team.dashboard;
 
     final queryCreateGroup = Query<GroupTable>(managedContext)
@@ -41,17 +41,17 @@ class Db {
   Future<void> createTask(api_models.Task task, String teamTitle, String groupTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
     final dashboardId = team.dashboard.id;
 
     final querySelectGroup = Query<GroupTable>(managedContext)
       ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
       ..where((GroupTable group) => group.title).equalTo(groupTitle);
-    final group = (await querySelectGroup.fetch()).first;
+    final group = await querySelectGroup.fetchOne();
 
     final querySelectAccount = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(task.responsibleLogin);
-    final account = (await querySelectAccount.fetch()).first;
+    final account = await querySelectAccount.fetchOne();
 
     final queryCreateTask= Query<TaskTable>(managedContext)
       ..values.title = task.title
@@ -74,7 +74,7 @@ class Db {
 
     final querySelectAccount = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(login);
-    final account = (await querySelectAccount.fetch()).first;
+    final account = await querySelectAccount.fetchOne();
 
     final queryUpdateAccount = Query<AccountTable>(managedContext)
       ..where((AccountTable account0) => account0.login).equalTo(account.login)
@@ -85,7 +85,7 @@ class Db {
   Future<void> deleteAccountFromTeam(String login, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
 
     final queryDeleteFromTeam = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.team.id).equalTo(team.id)
@@ -96,7 +96,7 @@ class Db {
   Future<void> deleteGroup(String groupTitle, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
     final dashboardId = team.dashboard.id;
 
     final queryDeleteGroup = Query<GroupTable>(managedContext)
@@ -108,13 +108,13 @@ class Db {
   Future<void> deleteTask(String taskTitle, String groupTitle, String teamTitle) async {
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.title).equalTo(teamTitle);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
     final dashboardId = team.dashboard.id;
 
     final querySelectGroup = Query<GroupTable>(managedContext)
       ..where((GroupTable group) => group.title).equalTo(groupTitle)
       ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId);
-    final group = (await querySelectGroup.fetch()).first;
+    final group = await querySelectGroup.fetchOne();
     final groupId = group.id;
 
     final queryDeleteTask = Query<TaskTable>(managedContext)
@@ -139,12 +139,12 @@ class Db {
   Future<Map<String, Object>> selectDashboard(String login) async {
     final querySelectAccount = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(login);
-    final account = (await querySelectAccount.fetch()).first;
+    final account = await querySelectAccount.fetchOne();
     final teamId = account.team.id;
 
     final querySelectTeam = Query<TeamTable>(managedContext)
       ..where((TeamTable team) => team.id).equalTo(teamId);
-    final team = (await querySelectTeam.fetch()).first;
+    final team = await querySelectTeam.fetchOne();
     final teamTitle = team.title;
     final dashboardId = team.dashboard.id;
 
@@ -169,7 +169,7 @@ class Db {
   Future<Map<String, Object>> selectSettings(String login) async {
     final querySelectAccount = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(login);
-    final account = (await querySelectAccount.fetch()).first;
+    final account = await querySelectAccount.fetchOne();
     final teamId = account.team.id;
 
     final queryAccountsFromOneTeam = Query<AccountTable>(managedContext)
@@ -185,7 +185,7 @@ class Db {
   Future<bool> hasTeam(String login) async {
     final query = Query<AccountTable>(managedContext)
       ..where((AccountTable account) => account.login).equalTo(login);
-    final account = (await query.fetch()).first;
+    final account = await query.fetchOne();
     return account.team != null;
   }
 
@@ -213,7 +213,7 @@ class Db {
     for (var task in tasks) {
       final querySelectAccount= Query<AccountTable>(managedContext)
         ..where((AccountTable account) => account.id).equalTo(task.account.id);
-      final account = (await querySelectAccount.fetch()).first;
+      final account = await querySelectAccount.fetchOne();
       final responsibleLogin = account.login;
 
       tasksResult.add(api_models.Task()
