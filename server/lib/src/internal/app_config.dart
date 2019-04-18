@@ -10,7 +10,7 @@ class AppConfig extends Configuration {
 
   DatabaseConfiguration database;
 
-  AppConfig([String configPath = productionConfigPath]): super.fromFile(io.File(configPath)) {
+  AppConfig([String configPath = localConfigPath]): super.fromFile(io.File(configPath)) {
     if (configPath == productionConfigPath) {
       Controller.includeErrorDetailsInServerErrorResponses = true;
     }

@@ -12,7 +12,7 @@ class Migration1 extends Migration {
 		database.addColumn("_AccountTable", SchemaColumn.relationship("team", ManagedPropertyType.integer, relatedTableName: "_TeamTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: false));
 		database.addColumn("_GroupTable", SchemaColumn.relationship("dashboard", ManagedPropertyType.integer, relatedTableName: "_DashboardTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: false));
 		database.addColumn("_TaskTable", SchemaColumn.relationship("group", ManagedPropertyType.integer, relatedTableName: "_GroupTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: false));
-		database.addColumn("_TaskTable", SchemaColumn.relationship("account", ManagedPropertyType.integer, relatedTableName: "_AccountTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: true));
+		database.addColumn("_TaskTable", SchemaColumn.relationship("account", ManagedPropertyType.integer, relatedTableName: "_AccountTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: false));
 		database.addColumn("_TeamTable", SchemaColumn.relationship("dashboard", ManagedPropertyType.integer, relatedTableName: "_DashboardTable", relatedColumnName: "id", rule: DeleteRule.nullify, isNullable: true, isUnique: true));
   }
   
