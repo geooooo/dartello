@@ -5,12 +5,12 @@ import 'package:api_models/src/task.dart';
 class Group extends Serializable {
 
   String title = '';
-  List<Task> tasks = [];
+  List<Task> tasks;
 
   @override
   Map<String, dynamic> asMap() => {
       'title': title,
-      'tasks': tasks.map((task) => task.asMap()).toList(),
+      'tasks': tasks?.map((task) => task.asMap())?.toList(),
   };
 
   @override
