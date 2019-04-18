@@ -1,4 +1,5 @@
 import 'package:server/src/services/src/db/src/group_table.dart';
+import 'package:server/src/services/src/db/src/task_table.dart';
 import 'package:server/src/services/src/db/src/team_table.dart';
 import 'package:test/test.dart';
 import 'package:aqueduct_test/aqueduct_test.dart';
@@ -22,13 +23,11 @@ void main() {
   restAppendAccountToTeamTest();
   restCreateTeamTest();
   restCreateGroupTest();
-
-// TODO: tests for
-//  ..route('/get_dashboard').link(() => GetDashboardController(diInjector))
-//  ..route('/delete_group').link(() => DeleteGroupController(diInjector))
-//  ..route('/create_task').link(() => CreateTaskController(diInjector))
-//  ..route('/delete_task').link(() => DeleteTaskController(diInjector))
-//  ..route('/get_settings').link(() => GetSettingsController(diInjector))
+  restCreateTaskTest();
+  restDeleteGroupTest();
+  restDeleteTaskTest();
+  restGetDashboardTest();
+  restGetSettingsTest();
 }
 
 void restLoginTest() {
@@ -273,4 +272,170 @@ void restCreateGroupTest() {
     ).fetchOne();
     expect(group.title, request.group.title);
   }, skip: 'TODO');
+}
+
+void restCreateTaskTest() {
+  test('POST /create_task', () async {
+    final request = CreateTaskRequest()
+      ..teamTitle = 'team1'
+      ..groupTitle = 'group1'
+      ..task = (Task()
+        ..title = 'tasknew'
+        ..description = 'description'
+        ..priority = 1
+        ..timePoint = 2
+        ..responsibleLogin = 'login1');
+    final response = await harness.agent.post(
+      '/create_task',
+      body: request.asMap(),
+    );
+    expectResponse(
+        response,
+        200,
+        body: (CreateTaskResponse()
+          ..status = 0).asMap()
+    );
+
+    final task = await (Query<TaskTable>(harness.context)
+      ..where((TaskTable task) => task.title).equalTo(request.task.title)
+    ).fetchOne();
+    final groupId = task.group.id;
+    final group = await (Query<GroupTable>(harness.context)
+      ..where((GroupTable group) => group.id).equalTo(groupId)
+      ..where((GroupTable group) => group.title).equalTo(request.groupTitle)
+    ).fetchOne();
+    final dashboardId = group.dashboard.id;
+    final team = await (Query<TeamTable>(harness.context)
+      ..where((TeamTable team) => team.title).equalTo(request.teamTitle)
+    ).fetchOne();
+    expect(team.dashboard.id, dashboardId);
+  }, skip: 'TODO');
+}
+
+void restDeleteGroupTest() {
+  test('POST /delete_group', () async {
+    final request = DeleteGroupRequest()
+      ..teamTitle = 'team1'
+      ..groupTitle = 'group1';
+    final response = await harness.agent.post(
+      '/delete_group',
+      body: request.asMap(),
+    );
+    expectResponse(
+        response,
+        200,
+        body: (CreateTaskResponse()
+          ..status = 0).asMap()
+    );
+
+    final team = await (Query<TeamTable>(harness.context)
+      ..where((TeamTable team) => team.title).equalTo(request.teamTitle)
+    ).fetchOne();
+    final dashboardId = team.dashboard.id;
+    final group = await (Query<GroupTable>(harness.context)
+      ..where((GroupTable group) => group.title).equalTo(request.groupTitle)
+      ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
+    ).fetchOne();
+    expect(group, isNull);
+  }, skip: 'TODO');
+}
+
+void restDeleteTaskTest() {
+  test('POST /delete_task', () async {
+    final request = DeleteTaskRequest()
+      ..teamTitle = 'team1'
+      ..groupTitle = 'group1'
+      ..taskTitle = 'task1';
+    final response = await harness.agent.post(
+      '/delete_task',
+      body: request.asMap(),
+    );
+    expectResponse(
+        response,
+        200,
+        body: (CreateTaskResponse()
+          ..status = 0).asMap()
+    );
+
+    final team = await (Query<TeamTable>(harness.context)
+      ..where((TeamTable team) => team.title).equalTo(request.teamTitle)
+    ).fetchOne();
+    final dashboardId = team.dashboard.id;
+    final group = await (Query<GroupTable>(harness.context)
+      ..where((GroupTable group) => group.title).equalTo(request.groupTitle)
+      ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
+    ).fetchOne();
+    final groupId = group.id;
+    final task = await (Query<TaskTable>(harness.context)
+      ..where((TaskTable task) => task.title).equalTo(request.taskTitle)
+      ..where((TaskTable task) => task.group.id).equalTo(groupId)
+    ).fetchOne();
+    expect(task, isNull);
+  }, skip: 'TODO');
+}
+
+void restGetDashboardTest() {
+  test('POST /get_dashboard', () async {
+    final request = GetDashboardRequest()
+      ..login = 'login1';
+    final response = await harness.agent.post(
+      '/get_dashboard',
+      body: request.asMap(),
+    );
+    final group1 = Group()
+      ..title = harness.group1.title
+      ..tasks = <Task>[
+        Task()
+          ..title = harness.task1.title
+          ..description = harness.task1.description
+          ..timePoint = harness.task1.timePoint
+          ..priority = harness.task1.priority
+          ..responsibleLogin = harness.account1.login,
+        Task()
+          ..title = harness.task2.title
+          ..description = harness.task2.description
+          ..timePoint = harness.task2.timePoint
+          ..priority = harness.task2.priority
+          ..responsibleLogin = harness.account2.login,
+      ];
+    final group2 = Group()
+      ..title = harness.group2.title
+      ..tasks = <Task>[
+        Task()
+          ..title = harness.task3.title
+          ..description = harness.task3.description
+          ..timePoint = harness.task3.timePoint
+          ..priority = harness.task3.priority
+          ..responsibleLogin = harness.account3.login,
+      ];
+    expectResponse(
+        response,
+        200,
+        body: (GetDashboardResponse()
+          ..status = 0
+          ..title = harness.team1.title
+          ..groups = <Group>[
+            group1,
+            group2,
+          ]
+        ).asMap()
+    );
+  }, skip: 'TODO');
+}
+
+void restGetSettingsTest() {
+  test('POST /get_settings', () async {
+    final request = GetSettingsRequest()
+     ;
+    final response = await harness.agent.post(
+      '/get_settings',
+      body: request.asMap(),
+    );
+    expectResponse(
+        response,
+        200,
+        body: (GetSettingsResponse()
+          ..status = 0).asMap()
+    );
+  });
 }

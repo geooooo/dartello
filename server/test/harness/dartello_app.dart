@@ -11,20 +11,20 @@ import 'package:server/src/services/src/db/src/team_table.dart';
 
 class DartelloAppHarness extends TestHarness<DartelloApp> with TestHarnessORMMixin {
 
-  DashboardTable _dashboard1;
-  DashboardTable _dashboard2;
-  TeamTable _team1;
-  TeamTable _team2;
-  AccountTable _account1;
-  AccountTable _account2;
-  AccountTable _account3;
-  AccountTable _account4;
-  GroupTable _group1;
-  GroupTable _group2;
-  GroupTable _group3;
-  TaskTable _task1;
-  TaskTable _task2;
-  TaskTable _task3;
+  DashboardTable dashboard1;
+  DashboardTable dashboard2;
+  TeamTable team1;
+  TeamTable team2;
+  AccountTable account1;
+  AccountTable account2;
+  AccountTable account3;
+  AccountTable account4;
+  GroupTable group1;
+  GroupTable group2;
+  GroupTable group3;
+  TaskTable task1;
+  TaskTable task2;
+  TaskTable task3;
 
   @override
   ManagedContext get context => channel.diInjector.db.managedContext;
@@ -46,83 +46,83 @@ class DartelloAppHarness extends TestHarness<DartelloApp> with TestHarnessORMMix
   }
 
   Future<void> _fillDashboardTable() async {
-    _dashboard1 = await Query<DashboardTable>(context).insert();
-    _dashboard2 = await Query<DashboardTable>(context).insert();
+    dashboard1 = await Query<DashboardTable>(context).insert();
+    dashboard2 = await Query<DashboardTable>(context).insert();
   }
 
   Future<void> _fillTeamTable() async {
-    _team1 = await ((Query<TeamTable>(context)
-        ..values.title = 'team1'
-        ..values.dashboard = _dashboard1
+    team1 = await ((Query<TeamTable>(context)
+      ..values.title = 'team1'
+      ..values.dashboard = dashboard1
     ).insert());
-    _team2 = await ((Query<TeamTable>(context)
+    team2 = await ((Query<TeamTable>(context)
       ..values.title = 'team2'
-      ..values.dashboard = _dashboard2
+      ..values.dashboard = dashboard2
     ).insert());
   }
 
   Future<void> _fillAccountTable() async {
-    _account1 = await ((Query<AccountTable>(context)
+    account1 = await ((Query<AccountTable>(context)
       ..values.login = 'login1'
       ..values.password = 'password1'
-      ..values.team = _team1
+      ..values.team = team1
     ).insert());
-    _account2 = await ((Query<AccountTable>(context)
+    account2 = await ((Query<AccountTable>(context)
       ..values.login = 'login2'
       ..values.password = 'password2'
-      ..values.team = _team1
+      ..values.team = team1
     ).insert());
-    _account3 = await ((Query<AccountTable>(context)
+    account3 = await ((Query<AccountTable>(context)
       ..values.login = 'login3'
       ..values.password = 'password3'
       ..values.team = null
     ).insert());
-    _account4 = await ((Query<AccountTable>(context)
+    account4 = await ((Query<AccountTable>(context)
       ..values.login = 'login4'
       ..values.password = 'password4'
-      ..values.team = _team2
+      ..values.team = team2
     ).insert());
   }
 
   Future<void> _fillGroupTable() async {
-    _group1 = await ((Query<GroupTable>(context)
+    group1 = await ((Query<GroupTable>(context)
       ..values.title = 'group1'
-      ..values.dashboard = _dashboard1
+      ..values.dashboard = dashboard1
     ).insert());
-    _group2 = await ((Query<GroupTable>(context)
+    group2 = await ((Query<GroupTable>(context)
       ..values.title = 'group2'
-      ..values.dashboard = _dashboard1
+      ..values.dashboard = dashboard1
     ).insert());
-    _group3 = await ((Query<GroupTable>(context)
+    group3 = await ((Query<GroupTable>(context)
       ..values.title = 'group3'
-      ..values.dashboard = _dashboard2
+      ..values.dashboard = dashboard2
     ).insert());
   }
 
   Future<void> _fillTaskTable() async {
-    _task1 = await ((Query<TaskTable>(context)
+    task1 = await ((Query<TaskTable>(context)
       ..values.title = 'task1'
       ..values.description = 'description1'
       ..values.timePoint = 1
       ..values.priority = 2
-      ..values.group = _group1
-      ..values.account = _account1
+      ..values.group = group1
+      ..values.account = account1
     ).insert());
-    _task2 = await ((Query<TaskTable>(context)
+    task2 = await ((Query<TaskTable>(context)
       ..values.title = 'task2'
       ..values.description = 'description2'
       ..values.timePoint = 1
       ..values.priority = 2
-      ..values.group = _group1
-      ..values.account = _account2
+      ..values.group = group1
+      ..values.account = account2
     ).insert());
-    _task3 = await ((Query<TaskTable>(context)
+    task3 = await ((Query<TaskTable>(context)
       ..values.title = 'task3'
       ..values.description = 'description3'
       ..values.timePoint = 1
       ..values.priority = 2
-      ..values.group = _group2
-      ..values.account = _account3
+      ..values.group = group2
+      ..values.account = account3
     ).insert());
   }
 
