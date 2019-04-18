@@ -15,7 +15,8 @@ class GetDashboardController extends ResourceController {
     final data = await _diInjector.db.selectDashboard(request.login);
     final response = GetDashboardResponse()
       ..title = data['title']
-      ..groups = data['groups'];
+      ..groups = data['groups']
+      ..status = 0;
     return Response.ok(response);
   }
 

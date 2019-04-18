@@ -40,9 +40,9 @@ void restLoginTest() {
       body: request1.asMap(),
     );
     expectResponse(
-        response1,
-        200,
-        body: (LoginReponse()..status = 0).asMap()
+      response1,
+      200,
+      body: (LoginReponse()..status = 0).asMap()
     );
 
     final request2 = LoginRequest()
@@ -53,11 +53,11 @@ void restLoginTest() {
       body: request2.asMap(),
     );
     expectResponse(
-        response2,
-        200,
-        body: (LoginReponse()..status = 1).asMap()
+      response2,
+      200,
+      body: (LoginReponse()..status = 1).asMap()
     );
-  }, skip: 'TODO');
+  });
 }
 
 void restRegistrationTest() {
@@ -70,16 +70,16 @@ void restRegistrationTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (RegistrationResponse()..status = 0).asMap()
+      response,
+      200,
+      body: (RegistrationResponse()..status = 0).asMap()
     );
 
     final account = await (Query<AccountTable>(harness.context)
       ..where((AccountTable account) => account.login).equalTo(request.login)).fetchOne();
     expect(account.login, request.login);
     expect(account.password, request.password);
-  }, skip: 'TODO');
+  });
 }
 
 void restLoginExistsTest() {
@@ -91,9 +91,9 @@ void restLoginExistsTest() {
       body: request1.asMap(),
     );
     expectResponse(
-        response1,
-        200,
-        body: (ExistsLoginResponse()..status = 0).asMap()
+      response1,
+      200,
+      body: (ExistsLoginResponse()..status = 0).asMap()
     );
 
     final request2 = ExistsLoginRequest()
@@ -103,11 +103,11 @@ void restLoginExistsTest() {
       body: request2.asMap(),
     );
     expectResponse(
-        response2,
-        200,
-        body: (ExistsLoginResponse()..status = 1).asMap()
+      response2,
+      200,
+      body: (ExistsLoginResponse()..status = 1).asMap()
     );
-  }, skip: 'TODO');
+  });
 }
 
 void restHasTeamTest() {
@@ -119,9 +119,9 @@ void restHasTeamTest() {
       body: request1.asMap(),
     );
     expectResponse(
-        response1,
-        200,
-        body: (HasTeamResponse()..status = 1).asMap()
+      response1,
+      200,
+      body: (HasTeamResponse()..status = 0).asMap()
     );
 
     final request2 = HasTeamRequest()
@@ -131,11 +131,11 @@ void restHasTeamTest() {
       body: request2.asMap(),
     );
     expectResponse(
-        response2,
-        200,
-        body: (ExistsLoginResponse()..status = 1).asMap()
+      response2,
+      200,
+      body: (HasTeamResponse()..status = 1).asMap()
     );
-  }, skip: 'TODO');
+  });
 }
 
 void restExistsTeamTest() {
@@ -147,9 +147,9 @@ void restExistsTeamTest() {
       body: request1.asMap(),
     );
     expectResponse(
-        response1,
-        200,
-        body: (ExistsTeamResponse()..status = 1).asMap()
+      response1,
+      200,
+      body: (ExistsTeamResponse()..status = 0).asMap()
     );
 
     final request2 = ExistsTeamRequest()
@@ -159,11 +159,11 @@ void restExistsTeamTest() {
       body: request2.asMap(),
     );
     expectResponse(
-        response2,
-        200,
-        body: (ExistsTeamResponse()..status = 1).asMap()
+      response2,
+      200,
+      body: (ExistsTeamResponse()..status = 1).asMap()
     );
-  }, skip: 'TODO');
+  });
 }
 
 void restDeleteAccountFromTeamTest() {
@@ -176,16 +176,16 @@ void restDeleteAccountFromTeamTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (DeleteAccountFromTeamResponse()..status = 0).asMap()
+      response,
+      200,
+      body: (DeleteAccountFromTeamResponse()..status = 0).asMap()
     );
 
     final account = await (Query<AccountTable>(harness.context)
       ..where((AccountTable account) => account.login).equalTo(request.login)
     ).fetchOne();
     expect(account.team, isNull);
-  }, skip: 'TODO');
+  });
 }
 
 void restAppendAccountToTeamTest() {
@@ -198,10 +198,10 @@ void restAppendAccountToTeamTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (AppendAccountToTeamResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (AppendAccountToTeamResponse()
+        ..status = 0).asMap()
     );
 
     final account = await (Query<AccountTable>(harness.context)
@@ -213,7 +213,7 @@ void restAppendAccountToTeamTest() {
     ).fetchOne();
     final teamTitle = team.title;
     expect(request.teamTitle, teamTitle);
-  }, skip: 'TODO');
+  });
 }
 
 void restCreateTeamTest() {
@@ -226,10 +226,10 @@ void restCreateTeamTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (CreateTeamResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (CreateTeamResponse()
+        ..status = 0).asMap()
     );
 
     final team = await (Query<TeamTable>(harness.context)
@@ -242,7 +242,7 @@ void restCreateTeamTest() {
       ..where((AccountTable account) => account.login).equalTo(request.login)
     ).fetchOne();
     expect(account.team.id, teamId);
-  }, skip: 'TODO');
+  });
 }
 
 void restCreateGroupTest() {
@@ -256,10 +256,10 @@ void restCreateGroupTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (CreateGroupResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (CreateGroupResponse()
+        ..status = 0).asMap()
     );
 
     final team = await (Query<TeamTable>(harness.context)
@@ -271,7 +271,7 @@ void restCreateGroupTest() {
       ..where((GroupTable group) => group.title).equalTo(request.group.title)
     ).fetchOne();
     expect(group.title, request.group.title);
-  }, skip: 'TODO');
+  });
 }
 
 void restCreateTaskTest() {
@@ -290,10 +290,10 @@ void restCreateTaskTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (CreateTaskResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (CreateTaskResponse()
+        ..status = 0).asMap()
     );
 
     final task = await (Query<TaskTable>(harness.context)
@@ -309,7 +309,7 @@ void restCreateTaskTest() {
       ..where((TeamTable team) => team.title).equalTo(request.teamTitle)
     ).fetchOne();
     expect(team.dashboard.id, dashboardId);
-  }, skip: 'TODO');
+  });
 }
 
 void restDeleteGroupTest() {
@@ -322,10 +322,10 @@ void restDeleteGroupTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (CreateTaskResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (DeleteGroupResponse()
+        ..status = 0).asMap()
     );
 
     final team = await (Query<TeamTable>(harness.context)
@@ -337,7 +337,7 @@ void restDeleteGroupTest() {
       ..where((GroupTable group) => group.dashboard.id).equalTo(dashboardId)
     ).fetchOne();
     expect(group, isNull);
-  }, skip: 'TODO');
+  });
 }
 
 void restDeleteTaskTest() {
@@ -351,10 +351,10 @@ void restDeleteTaskTest() {
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (CreateTaskResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (DeleteTaskResponse()
+        ..status = 0).asMap()
     );
 
     final team = await (Query<TeamTable>(harness.context)
@@ -371,7 +371,7 @@ void restDeleteTaskTest() {
       ..where((TaskTable task) => task.group.id).equalTo(groupId)
     ).fetchOne();
     expect(task, isNull);
-  }, skip: 'TODO');
+  });
 }
 
 void restGetDashboardTest() {
@@ -409,33 +409,37 @@ void restGetDashboardTest() {
           ..responsibleLogin = harness.account3.login,
       ];
     expectResponse(
-        response,
-        200,
-        body: (GetDashboardResponse()
-          ..status = 0
-          ..title = harness.team1.title
-          ..groups = <Group>[
-            group1,
-            group2,
-          ]
-        ).asMap()
+      response,
+      200,
+      body: (GetDashboardResponse()
+        ..status = 0
+        ..title = harness.team1.title
+        ..groups = <Group>[
+          group1,
+          group2,
+        ]
+      ).asMap()
     );
-  }, skip: 'TODO');
+  });
 }
 
 void restGetSettingsTest() {
   test('POST /get_settings', () async {
     final request = GetSettingsRequest()
-     ;
+      ..login = harness.account1.login;
     final response = await harness.agent.post(
       '/get_settings',
       body: request.asMap(),
     );
     expectResponse(
-        response,
-        200,
-        body: (GetSettingsResponse()
-          ..status = 0).asMap()
+      response,
+      200,
+      body: (GetSettingsResponse()
+        ..status = 0
+        ..logins = <String>[
+          harness.account2.login,
+        ]
+      ).asMap()
     );
   });
 }

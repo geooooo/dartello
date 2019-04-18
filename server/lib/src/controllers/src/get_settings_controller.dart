@@ -13,7 +13,9 @@ class GetSettingsController extends ResourceController {
   Future<Response> getSettings(@Bind.body() GetSettingsRequest request) async {
     _diInjector.logger.logRestApi(this.request.method, this.request.path.string, request.asMap());
     final data = await _diInjector.db.selectSettings(request.login);
-    final response = GetSettingsResponse()..readFromMap(data);
+    final response = GetSettingsResponse()
+      ..readFromMap(data)
+      ..status = 0;
     return Response.ok(response);
   }
 

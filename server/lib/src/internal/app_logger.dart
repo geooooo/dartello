@@ -8,7 +8,9 @@ class AppLogger {
   static final bodyColor = AnsiPen();
   static final Logger _logger = Logger('main');
 
-  AppLogger(Logger aqueductLogger) {
+  bool isTestingMode;
+
+  AppLogger(Logger aqueductLogger, {this.isTestingMode = false}) {
     hierarchicalLoggingEnabled = true;
 
     aqueductLogger.onRecord.listen((record) {
@@ -32,10 +34,14 @@ class AppLogger {
       ..xterm(15, bg: false);
   }
 
-  void logRestApi(String method, String uri, Map<String, Object> body) =>
-      _logger.info(
-          '${methodColor(method.toUpperCase())} ${uriColor(uri)}\n'
-          '${bodyColor(body.toString())}'
-      );
+  void logRestApi(String method, String uri, Map<String, Object> body) {
+    if (isTestingMode) {
+      return;
+    }
+    _logger.info(
+      '${methodColor(method.toUpperCase())} ${uriColor(uri)}\n'
+      '${bodyColor(body.toString())}'
+    );
+  }
 
 }

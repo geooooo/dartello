@@ -33,6 +33,7 @@ class DartelloAppHarness extends TestHarness<DartelloApp> with TestHarnessORMMix
   Future<void> onSetUp() async {
     channel.appConfig = AppConfig(AppConfig.testConfigPath);
     channel.diInjector.db = Db(channel.appConfig);
+    channel.diInjector.logger.isTestingMode = true;
     await resetData();
   }
 
