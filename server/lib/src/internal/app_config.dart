@@ -4,8 +4,9 @@ import 'package:aqueduct/aqueduct.dart';
 
 class AppConfig extends Configuration {
 
-  static const String productionConfigPath = 'config.yaml';
-  static const String testConfigPath = 'config.src.yaml';
+  static const String productionConfigPath = 'config.heroku.yaml';
+  static const String localConfigPath = 'config.dev.yaml';
+  static const String testConfigPath = 'config.test.yaml';
 
   DatabaseConfiguration database;
 
