@@ -8,4 +8,4 @@ Features:
 * Each team has dashboard with tasks in groups
 * Task has title, description, priority ...
 
-> Курсовая работа по Управлению программными проектами
+> University course work for Software Project Management
